@@ -63,18 +63,14 @@
       value_raw: "{{ value_raw | string }}"
     state: present
   vars:
-    # PR guy: "Ansible's main strengths are simplicity and ease of use."
-    # Me : "Jinja2 !!"
-    #
     # NOTES:
     #   * {{ "x" }} is Jinja2's take on escaping "x"
     #   * Use "|-" otherwise the above becomes {{ \"x\" }}
     #   * if something is surrounded by unescaped {} you end up
     #     with extra parenthesis at no additional cost (other than
-    #     the cost of figuring this out). Why? Dunno.
+    #     the cost of figuring this out).
     #   * use a variable with a "| string" filter, otherwise Jinja2
-    #     replaces all your single quotes with double quotes.
-    #     Don't ask me why.
+    #     replaces single quotes with double quotes.
     #   * In the fulture this will probably be moved to a template file.
     value_raw: |-
       {{ "{" }}
