@@ -54,14 +54,3 @@ Have a look at the test directory.
       roles:
          - robotmk
 
-
-License
--------
-
-Proprietary (unreleased)
-
-Author Information
-------------------
-
-Geoffroy Stévenne
-
