@@ -1,7 +1,7 @@
 ---
 - name: Start baking agents
   ansible.builtin.uri:
-    url: "{{ api_url }}/domain-types/agent/actions/bake_and_sign/invoke"
+    url: "{{ cmk_api_url }}/domain-types/agent/actions/bake_and_sign/invoke"
     method: POST
     body_format: json
     body: "{\"key_id\": {{ cmk_agent_key_id }}, \"passphrase\": \"{{ cmk_agent_key_pw }}\"}"
@@ -11,7 +11,7 @@
 
 - name: Waiting for agent baking completion
   ansible.builtin.uri:
-    url: "{{ api_url }}/domain-types/agent/actions/baking_status/invoke"
+    url: "{{ cmk_api_url }}/domain-types/agent/actions/baking_status/invoke"
     method: GET
     headers:
       Authorization: "Bearer automation {{ cmk_automation_pw }}"
