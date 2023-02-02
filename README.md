@@ -10,7 +10,6 @@ Requirements
 
 * A working CheckMK test server (CEE edition only)
 * Agent bakery must be configured
-* Agent signing key must be installed under vars/
 * Automatic updates must be enabled
 * The test suite directories under files/robot/ are deployed autmatically
 
