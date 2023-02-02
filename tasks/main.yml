@@ -1,0 +1,3 @@
+---
+ansible.builtin.import_tasks: utils/get_automation_pw.yml
+ansible.builtin.import_tasks: robotmk.yml

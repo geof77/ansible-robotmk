@@ -1,0 +1,161 @@
+---
+- name: Install RobotFrameWork Python modules (needs v3.8+)
+  ansible.builtin.pip:
+    name: robotframework
+    state: present
+    executable: /usr/bin/pip3
+  environment:
+    https_proxy: "{{ https_proxy }}"
+
+- name: Check if RobotMK mkp is already installed
+  ansible.builtin.command: bash -l -c "mkp list | grep '^robotmk' || true"
+  register: robotmkp_installed
+  changed_when: false
+  become: true
+  become_user: "{{ cmk_site_name }}"
+
+- name: Get RobotMK package
+  ansible.builtin.uri:
+    url: "{{ robotmk_download_url }}"
+    dest: /tmp/robotmk.mkp
+    status_code: [200, 304]
+  environment:
+    https_proxy: "{{ https_proxy }}"
+  become: true
+  become_user: "{{ cmk_site_name }}"
+  when: robotmkp_installed.stdout == ''
+
+- name: Add RobotMK package to CheckMK
+  ansible.builtin.command: bash -l -c "mkp install /tmp/robotmk.mkp"
+  become: true
+  become_user: "{{ cmk_site_name }}"
+  when: robotmkp_installed.stdout == ''
+
+- name: Get CheckMK automation secret
+  ansible.builtin.command: |
+    cat /omd/sites/{{ cmk_site_name }}/var/check_mk/web/automation/automation.secret
+  register: cmk_automation_pw
+  changed_when: false
+
+- name: Deploy Test suites
+  ansible.builtin.copy:
+    src: robot
+    dest: /usr/lib/checkmk/
+    mode: 0750
+
+- name: Gather suite names
+  ansible.builtin.find:
+    path: /usr/lib/checkmk/robot/
+    file_type: directory
+    recurse: false
+  register: suite_listing
+
+- name: Create RobotMK deployment rule
+  tribe29.checkmk.rule:
+    server_url: "{{ cmk_server_url }}"
+    site: "{{ cmk_site_name }}"
+    automation_user: "automation"
+    automation_secret: "{{ cmk_automation_pw.stdout }}"
+    ruleset: "agent_config:robotmk"
+    rule:
+      properties:
+        comment: "{{ ansible_managed }}"
+        description: "Deploy RobotMK agent on cmk server"
+      conditions:
+        - key: "cmk/check_mk_server"
+          operator: "is"
+          value: "yes"
+      value_raw: "{{ value_raw | string }}"
+    state: present
+  vars:
+    # PR guy: "Ansible's main strengths are simplicity and ease of use."
+    # Me : "Jinja2 !!"
+    #
+    # NOTES:
+    #   * {{ "x" }} is Jinja2's take on escaping "x"
+    #   * Use "|-" otherwise the above becomes {{ \"x\" }}
+    #   * if something is surrounded by unescaped {} you end up
+    #     with extra parenthesis at no additional cost (other than
+    #     the cost of figuring this out). Why? Dunno.
+    #   * use a variable with a "| string" filter, otherwise Jinja2
+    #     replaces all your single quotes with double quotes.
+    #     Don't ask me why.
+    #   * In the fulture this will probably be moved to a template file.
+    value_raw: |-
+      {{ "{" }}
+        'agent_output_encoding': 'zlib_codec',
+        'dirs': {{ "{" }}{{ "}" }},
+        'execution_mode': (
+          'agent_serial',
+          {{ "{" }}
+            'cache_time': 960,
+            'execution_interval': 900,
+            'suites': [
+              {%- for i in suite_listing.files %}
+              {{ "{" }}'path': '{{ i.path | basename }}'{{ "}" }}{% if not loop.last %}, {% endif %}
+              {%- endfor %}
+            ]
+          {{ "}" }}
+        ),
+        'log_level': 'INFO',
+        'log_rotation': 7,
+        'transmit_html': True
+      {{ "}" }}
+
+# When we add test cases to a suite, we want them activated automatically
+- name: Create rule for automatic activation of dicovered test cases
+  tribe29.checkmk.rule:
+    server_url: "{{ cmk_server_url }}"
+    site: "{{ cmk_site_name }}"
+    automation_user: "automation"
+    automation_secret: "{{ cmk_automation_pw.stdout }}"
+    ruleset: "periodic_discovery"
+    rule:
+      properties:
+        comment: "{{ ansible_managed }}"
+        description: "Activate discovered RobotMK tests"
+        disabled: false
+      conditions:
+        host_labels:
+          - key": "robotmk"
+            operator: "is"
+            value: "yes"
+      value_raw: "{
+        'check_interval': 5.0,
+        'inventory_rediscovery': {
+          'activation': True,
+          'excluded_time': [],
+          'group_time': 900,
+          'mode': 2,
+          'service_filters': ('combined', {'service_whitelist': ['^E2E.*']})
+        },
+        'severity_new_host_label': 0,
+        'severity_unmonitored': 0,
+        'severity_vanished': 0
+        }"
+      location:
+        folder: "/"
+        position: "top"
+    state: present
+
+- name: Activate CheckMK changes
+  tribe29.checkmk.activation:
+    server_url: "{{ cmk_server_url }}"
+    site: "{{ cmk_site_name }}"
+    automation_user: "automation"
+    automation_secret: "{{ cmk_automation_pw.stdout }}"
+
+- name: Bake agents
+  ansible.builtin.include_tasks:
+    file: utils/bake_and_sign_agents.yml
+
+# - name: Install agent
+#  ansible.builtin.include_tasks:
+#    file: utils/install_agent.yml
+
+- name: Remove downloaded files
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /tmp/robotmk.mkp
