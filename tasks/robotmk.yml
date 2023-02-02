@@ -142,11 +142,7 @@
 
 - name: Bake agents
   ansible.builtin.include_tasks:
-    file: utils/bake_and_sign_agents.yml
-
-# - name: Install agent
-#  ansible.builtin.include_tasks:
-#    file: utils/install_agent.yml
+    file: ./utils/bake_and_sign_agents.yml
 
 - name: Remove downloaded files
   ansible.builtin.file:
