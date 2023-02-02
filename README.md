@@ -1,9 +1,19 @@
-RobotMK
-=========
+RobotMK ansible role
+====================
 
 Manage the RobotMK CheckMK plugin.
 
 IMPORTANT NOTE: !!! This is a very early version! Run only on test servers and at your own risk!
+
+Features
+--------
+
+* Install robotframework (pip install)
+* Download and install the Robot MK .mkp
+* Automatically deploy the test suites it finds in the robot directory
+* Create the agent deployment rule with all the suites
+* Bake the agent (deployed via automatic updates)
+* Create a rule for automatic discovery of the test cases
 
 Requirements
 ------------
