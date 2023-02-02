@@ -31,12 +31,6 @@
   become_user: "{{ cmk_site_name }}"
   when: robotmkp_installed.stdout == ''
 
-- name: Get CheckMK automation secret
-  ansible.builtin.command: |
-    cat /omd/sites/{{ cmk_site_name }}/var/check_mk/web/automation/automation.secret
-  register: cmk_automation_pw
-  changed_when: false
-
 - name: Deploy Test suites
   ansible.builtin.copy:
     src: robot
@@ -55,7 +49,7 @@
     server_url: "{{ cmk_server_url }}"
     site: "{{ cmk_site_name }}"
     automation_user: "automation"
-    automation_secret: "{{ cmk_automation_pw.stdout }}"
+    automation_secret: "{{ cmk_automation_pw }}"
     ruleset: "agent_config:robotmk"
     rule:
       properties:
@@ -108,7 +102,7 @@
     server_url: "{{ cmk_server_url }}"
     site: "{{ cmk_site_name }}"
     automation_user: "automation"
-    automation_secret: "{{ cmk_automation_pw.stdout }}"
+    automation_secret: "{{ cmk_automation_pw }}"
     ruleset: "periodic_discovery"
     rule:
       properties:
@@ -143,7 +137,7 @@
     server_url: "{{ cmk_server_url }}"
     site: "{{ cmk_site_name }}"
     automation_user: "automation"
-    automation_secret: "{{ cmk_automation_pw.stdout }}"
+    automation_secret: "{{ cmk_automation_pw }}"
 
 - name: Bake agents
   ansible.builtin.include_tasks:
