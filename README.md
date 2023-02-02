@@ -28,7 +28,7 @@ For agent bakery:
 Dependencies
 ------------
 
-* tribe29.checkmk
+* tribe29.checkmk >= 0.16.0
 
 Example Playbook
 ----------------
