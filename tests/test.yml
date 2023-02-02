@@ -4,7 +4,7 @@
   vars:
     https_proxy: http://proxy.example.com:8000
     cmk_site_name: test
-    cmk_server_url: http://test.example.com/test/check_mk
+    cmk_server_fqdn: cmk.example.com
     cmk_agent_key_id: 1
     cmk_agent_key_pw: *************
     robotmk_version: "1.4.1"

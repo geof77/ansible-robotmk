@@ -1,3 +1,4 @@
 ---
-cmk_api_url: "http://{{ cmk_server_fqdn }}/{{ cmk_site_name }}/check_mk/api/1.0"
+cmk_server_url: http://{{ cmk_server_fqdn }}
+cmk_api_url: "{{ cmk_server_url }}/{{ cmk_site_name }}/check_mk/api/1.0"
 robotmk_download_url: "https://github.com/elabit/robotmk/releases/download/v{{ robotmk_version }}/robotmk.v{{ robotmk_version }}-cmk2.mkp"
