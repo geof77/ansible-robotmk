@@ -40,12 +40,12 @@
 - name: Deploy Test suites
   ansible.builtin.copy:
     src: robot
-    dest: /usr/lib/checkmk/
+    dest: /usr/lib/check_mk_agent/
     mode: 0750
 
 - name: Gather suite names
   ansible.builtin.find:
-    path: /usr/lib/checkmk/robot/
+    path: /usr/lib/check_mk_agent/robot/
     file_type: directory
     recurse: false
   register: suite_listing
