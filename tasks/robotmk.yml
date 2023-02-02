@@ -35,7 +35,8 @@
   ansible.builtin.copy:
     src: robot
     dest: /usr/lib/check_mk_agent/
-    mode: 0750
+    directory_mode: 0750
+    mode: 0644
 
 - name: Gather suite names
   ansible.builtin.find:
