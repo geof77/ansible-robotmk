@@ -3,7 +3,12 @@ RobotMK ansible role
 
 Manage the RobotMK CheckMK plugin.
 
-IMPORTANT NOTE: !!! This is a very early version! Run only on test servers and at your own risk!
+IMPORTANT NOTES: 
+
+* !!! This is a very early version! Run only on test servers and at your own risk!
+* This might require specific checkmk configuration.
+* See this repo for configuration snippets: https://github.com/geof77/ansible-robotmk 
+
 
 Features
 --------
