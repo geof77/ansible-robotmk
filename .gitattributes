@@ -1,0 +1,2 @@
+*.mk linguist-language=python
+*.yml linguist-detectable
