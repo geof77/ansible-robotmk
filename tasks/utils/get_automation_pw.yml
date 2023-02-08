@@ -3,8 +3,10 @@
   ansible.builtin.command: cat /omd/sites/{{ cmk_site_name }}/var/check_mk/web/automation/automation.secret
   register: result
   check_mode: false
+  tags: always
 
 - name: Set automation pw fact
   ansible.builtin.set_fact:
     cmk_automation_pw: "{{ result.stdout }}"
   check_mode: false
+  tags: always
