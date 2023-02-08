@@ -9,10 +9,10 @@
 
 - name: Check if RobotMK mkp is already installed
   ansible.builtin.command: bash -l -c "mkp list | grep '^robotmk' || true"
-  register: robotmkp_installed
-  changed_when: false
   become: true
   become_user: "{{ cmk_site_name }}"
+  register: robotmkp_installed
+  changed_when: false
 
 - name: Get RobotMK package
   ansible.builtin.uri:
@@ -54,24 +54,19 @@
     ruleset: "agent_config:robotmk"
     rule:
       properties:
-        comment: "{{ ansible_managed }}"
+        comment: "Managed by ansible"
         description: "Deploy RobotMK agent on cmk server"
+        disabled: false
       conditions:
-        - key: "cmk/check_mk_server"
-          operator: "is"
-          value: "yes"
+        host_tags: []
+        service_labels: []
+        host_labels:
+          - key: "cmk/check_mk_server"
+            operator: "is"
+            value: "yes"
       value_raw: "{{ value_raw | string }}"
     state: present
   vars:
-    # NOTES:
-    #   * {{ "x" }} is Jinja2's take on escaping "x"
-    #   * Use "|-" otherwise the above becomes {{ \"x\" }}
-    #   * if something is surrounded by unescaped {} you end up
-    #     with extra parenthesis at no additional cost (other than
-    #     the cost of figuring this out).
-    #   * use a variable with a "| string" filter, otherwise Jinja2
-    #     replaces single quotes with double quotes.
-    #   * In the fulture this will probably be moved to a template file.
     value_raw: |-
       {{ "{" }}
         'agent_output_encoding': 'zlib_codec',
@@ -103,12 +98,14 @@
     ruleset: "periodic_discovery"
     rule:
       properties:
-        comment: "{{ ansible_managed }}"
+        comment: "Managed by ansible"
         description: "Activate discovered RobotMK tests"
         disabled: false
       conditions:
+        host_tags: []
+        service_labels: []
         host_labels:
-          - key": "robotmk"
+          - key: "robotmk"
             operator: "is"
             value: "yes"
       value_raw: "{
