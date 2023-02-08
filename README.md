@@ -22,10 +22,12 @@ Features
 Requirements
 ------------
 
-* A working CheckMK test server (CEE edition only)
+* A working CheckMK test server
+* The test suite directories under files/robot/ are deployed automatically
+
+To use CEE features (optional):
 * Agent bakery must be configured
 * Automatic updates must be enabled
-* The test suite directories under files/robot/ are deployed autmatically
 
 Role Variables
 --------------
@@ -35,14 +37,14 @@ Role Variables
 * cmk_server_url: URL of the CheckMK server
 * robotmk_version: "1.4.1"
 
-For agent bakery:
+For CEE features (agent bakery):
 * cmk_agent_key_id: the agent key id
 * cmk_agnet_key_pw: the agent key password 
 
 Dependencies
 ------------
 
-* tribe29.checkmk >= 0.16.0
+* tribe29.checkmk >= 0.17.0
 
 Example Playbook
 ----------------
