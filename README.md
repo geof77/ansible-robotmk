@@ -6,7 +6,7 @@ Manage the RobotMK CheckMK plugin.
 IMPORTANT NOTES: 
 
 * !!! This is a very early version! Run only on test servers and at your own risk!
-* This might require specific checkmk configuration.
+
 * See this repo for configuration snippets: https://github.com/geof77/ansible-cmk-utils
 
 Features
@@ -15,8 +15,11 @@ Features
 * Install robotframework (pip install)
 * Download and install the Robot MK .mkp
 * Automatically deploy the test suites it finds in the robot directory
+
+For CheckMK CEE version:
+
 * Create the agent deployment rule with all the suites
-* Bake the agent (deployed via automatic updates)
+* Bake the agent
 * Create a rule for automatic discovery of the test cases
 
 Requirements
@@ -26,8 +29,8 @@ Requirements
 * The test suite directories under files/robot/ are deployed automatically
 
 To use CEE features (optional):
-* Agent bakery must be configured
-* Automatic updates must be enabled
+* Agent bakery must be configured (with signing keys, ...)
+* Automatic updates should be enabled
 
 Role Variables
 --------------
@@ -39,7 +42,7 @@ Role Variables
 
 For CEE features (agent bakery):
 * cmk_agent_key_id: the agent key id
-* cmk_agnet_key_pw: the agent key password 
+* cmk_agent_key_pw: the agent key password 
 
 Dependencies
 ------------
