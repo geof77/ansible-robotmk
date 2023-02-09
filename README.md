@@ -61,6 +61,7 @@ Dependencies
 Example Playbook
 ----------------
 
+```
 - hosts: checkmk
 
   collections:
@@ -78,4 +79,4 @@ Example Playbook
 
   roles:
      - robotmk
-
+```
