@@ -3,7 +3,7 @@
   ansible.builtin.package:
     name:
       - python39-pyyaml
-  state: present
+    state: present
 
 - name: Install Python modules
   ansible.builtin.pip:
