@@ -7,43 +7,26 @@
   environment:
     https_proxy: "{{ https_proxy }}"
 
-- name: Check if RobotMK mkp is already installed
-  ansible.builtin.command: bash -l -c "mkp list | grep '^robotmk' || true"
-  become: true
-  become_user: "{{ cmk_site_name }}"
-  register: robotmkp_installed
-  changed_when: false
+- import_role:
+  name: cmk-utils
+  tasks_from: install_mkp.yml
+  loop:
+    - name: robotmk
+    - url: "{{ robotmk_download_url }}"
 
-- name: Get RobotMK package
-  ansible.builtin.uri:
-    url: "{{ robotmk_download_url }}"
-    dest: /tmp/robotmk.mkp
-    status_code: [200, 304]
-  environment:
-    https_proxy: "{{ https_proxy }}"
-  become: true
-  become_user: "{{ cmk_site_name }}"
-  when: robotmkp_installed.stdout == ''
+- name: Ensure robot directory exists
+  ansible.builtin.file:
+    path: /usr/lib/check_mk_agent/robot
+    state: directory
+    mode: '0755'
 
-- name: Add RobotMK package to CheckMK
-  ansible.builtin.command: bash -l -c "mkp install /tmp/robotmk.mkp"
-  become: true
-  become_user: "{{ cmk_site_name }}"
-  when: robotmkp_installed.stdout == ''
-
-- name: Deploy Test suites
+- name: Deploy {{ item }} Test suite
   ansible.builtin.copy:
-    src: robot
-    dest: /usr/lib/check_mk_agent/
-    directory_mode: 0750
-    mode: 0644
-
-- name: Gather suite names
-  ansible.builtin.find:
-    path: /usr/lib/check_mk_agent/robot/
-    file_type: directory
-    recurse: false
-  register: suite_listing
+    src: "robot/{{ item }}"
+    dest: "/usr/lib/check_mk_agent/robot/"
+    directory_mode: '0755'
+    mode: '0644'
+  loop: "{{ robotmk_suites }}"
 
 - name: Create RobotMK deployment rule
   tribe29.checkmk.rule:
@@ -77,8 +60,8 @@
             'cache_time': 960,
             'execution_interval': 900,
             'suites': [
-              {%- for i in suite_listing.files %}
-              {{ "{" }}'path': '{{ i.path | basename }}'{{ "}" }}{% if not loop.last %}, {% endif %}
+              {%- for suite in robotmk_suites %}
+              {{ "{" }}'path': '{{ suite }}'{{ "}" }}{% if not loop.last %}, {% endif %}
               {%- endfor %}
             ]
           {{ "}" }}
@@ -142,4 +125,4 @@
     path: "{{ item }}"
     state: absent
   loop:
-    - /tmp/robotmk.mkp
+    - "{{ mkp_download.path }}
