@@ -4,8 +4,8 @@
   'execution_mode': (
     'agent_serial',
     {{ "{" }}
-      'cache_time': 960,
-      'execution_interval': 900,
+      'cache_time': {{ cache_time }},
+      'execution_interval': {{ execution_interval }},
       'suites': [
         {%- for suite in robotmk_suites %}
         {{ "{" }}'path': '{{ suite }}'{{ "}" }}{% if not loop.last %}, {% endif %}
@@ -13,7 +13,7 @@
       ]
     {{ "}" }}
   ),
-  'log_level': 'INFO',
-  'log_rotation': 7,
-  'transmit_html': True
+'log_level': '{{ log_level }}',
+'log_rotation': {{ log_rotation }},
+'transmit_html': {{ transmit_html }}
 {{ "}" }}
