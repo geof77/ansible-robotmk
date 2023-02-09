@@ -20,7 +20,7 @@
     mode: push
   loop: "{{ robotmk_suites }}"
 
-- name: Create RobotMK deployment rule
+- name: Create RobotMK agent rule
   tribe29.checkmk.rule:
     server_url: "{{ cmk_server_url }}"
     site: "{{ cmk_site_name }}"
@@ -39,29 +39,8 @@
           - key: "cmk/check_mk_server"
             operator: "is"
             value: "yes"
-      value_raw: "{{ value_raw | string }}"
+      value_raw: "{{ lookup('ansible.builtin.template', 'agent_rule.j2') | string }}"
     state: present
-  vars:
-    value_raw: |-
-      {{ "{" }}
-        'agent_output_encoding': 'zlib_codec',
-        'dirs': {{ "{" }}{{ "}" }},
-        'execution_mode': (
-          'agent_serial',
-          {{ "{" }}
-            'cache_time': 960,
-            'execution_interval': 900,
-            'suites': [
-              {%- for suite in robotmk_suites %}
-              {{ "{" }}'path': '{{ suite }}'{{ "}" }}{% if not loop.last %}, {% endif %}
-              {%- endfor %}
-            ]
-          {{ "}" }}
-        ),
-        'log_level': 'INFO',
-        'log_rotation': 7,
-        'transmit_html': True
-      {{ "}" }}
 
 - name: Create RobotMK service monitoring rule
   tribe29.checkmk.rule:

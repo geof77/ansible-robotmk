@@ -1,0 +1,19 @@
+{{ "{" }}
+  'agent_output_encoding': 'zlib_codec',
+  'dirs': {{ "{" }}{{ "}" }},
+  'execution_mode': (
+    'agent_serial',
+    {{ "{" }}
+      'cache_time': 960,
+      'execution_interval': 900,
+      'suites': [
+        {%- for suite in robotmk_suites %}
+        {{ "{" }}'path': '{{ suite }}'{{ "}" }}{% if not loop.last %}, {% endif %}
+        {%- endfor %}
+      ]
+    {{ "}" }}
+  ),
+  'log_level': 'INFO',
+  'log_rotation': 7,
+  'transmit_html': True
+{{ "}" }}
