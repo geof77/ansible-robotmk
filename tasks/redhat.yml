@@ -1,7 +1,9 @@
 ---
 - name: Install python packages
   ansible.builtin.package:
-    - python39-pyyaml
+    name:
+      - python39-pyyaml
+  state: present
 
 - name: Install Python modules
   ansible.builtin.pip:
