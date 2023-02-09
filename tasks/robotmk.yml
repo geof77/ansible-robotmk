@@ -1,12 +1,4 @@
 ---
-- name: Install RobotFrameWork Python modules (needs v3.8+)
-  ansible.builtin.pip:
-    name: robotframework
-    state: present
-    executable: /usr/bin/pip3
-  environment:
-    https_proxy: "{{ https_proxy }}"
-
 - name: Run package installation
   include_role:
     name: cmk-utils

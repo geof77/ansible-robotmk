@@ -1,3 +1,4 @@
+---
 - name: Install python packages
   ansible.builtin.package:
     - python39-pyyaml
