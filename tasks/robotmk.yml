@@ -21,7 +21,7 @@
     state: directory
     mode: '0755'
 
-- name: Deploy {{ item }} Test suite
+- name: Deploy Test suites
   ansible.builtin.copy:
     src: "robot/{{ item }}"
     dest: "/usr/lib/check_mk_agent/robot/"
