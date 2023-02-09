@@ -14,11 +14,10 @@
     mode: '0755'
 
 - name: Deploy Test suites
-  ansible.builtin.copy:
+  ansible.posix.synchronize:
     src: "robot/{{ item }}"
     dest: "/usr/lib/check_mk_agent/robot/"
-    directory_mode: '0755'
-    mode: '0644'
+    mode: push
   loop: "{{ robotmk_suites }}"
 
 - name: Create RobotMK deployment rule
