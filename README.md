@@ -43,6 +43,8 @@ To use CEE features (optional):
 Role Variables
 --------------
 
+### Generic settings
+
 | Name | Description |
 | ---- | ----------- |
 | https_proxy     | proxy to download the robotmk mkp |
@@ -51,11 +53,25 @@ Role Variables
 | robotmk_version | "1.4.1" |
 | robotmk_suites  | list of suite names you want to deploy from the role's files/ directory |
 
-For CEE features (agent bakery):
+### CEE features (agent bakery)
+
 | Name | Description |
 | ---- | ----------- |
 | cmk_agent_key_id | the agent key id |
 | cmk_agent_key_pw | the agent key password | 
+
+### Runner configuration
+
+For now, only ``agent_serial`` is supported. The agent configuration settings default values can be overriden with these variables:
+
+| Settings           | Default value |
+| --------           | ------------- |
+| cache_time         | 960           |
+| execution_interval | 900           |
+| log_level          | "INFO"        |
+| log_rotation       | 7             |
+| transmit_html      | "True"        |
+
 
 Dependencies
 ------------
