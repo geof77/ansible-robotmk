@@ -7,7 +7,7 @@ IMPORTANT NOTES:
 
 * !!! This is a very early version! Run only on test servers and at your own risk!
 
-* See this repo for configuration snippets: https://github.com/geof77/ansible-cmk-utils
+* This role requires https://github.com/geof77/ansible-cmk-utils
 
 Features
 --------
@@ -25,8 +25,8 @@ For CheckMK CEE version:
 Requirements
 ------------
 
-* A working CheckMK test server
-* The test suite directories under files/robot/ are deployed automatically
+* cd ansbile/roles; git clone https://github.com/geof77/ansible-cmk-utils cmk-utils
+* Install the tribe29.checkmk collection
 
 To use CEE features (optional):
 * Agent bakery must be configured (with signing keys, ...)
@@ -39,6 +39,7 @@ Role Variables
 * cmk_site_name: CheckMK site name
 * cmk_server_url: URL of the CheckMK server
 * robotmk_version: "1.4.1"
+* robotmk_suites: a list of suite names you want to deploy from the role's files/ directory.
 
 For CEE features (agent bakery):
 * cmk_agent_key_id: the agent key id
@@ -55,11 +56,20 @@ Example Playbook
 Have a look at the test directory.
 
     - hosts: checkmk
+
+      collections:
+        - tribe29.checkmk
+
       vars:
         https_proxy: http://proxy.example.com:8000
         cmk_site_name: test
         cmk_server_url: http://test.example.com/test/check_mk
+        cmk_agent_key_id: 1
+        cmk_agent_key_pw: secret
         robotmk_version: "1.4.1"
+        robotmk_suites:
+          - testsuite
+
       roles:
          - robotmk
 
