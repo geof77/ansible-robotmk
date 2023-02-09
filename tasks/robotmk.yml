@@ -118,5 +118,6 @@
     automation_secret: "{{ cmk_automation_pw }}"
 
 - name: Bake agents
-  ansible.builtin.include_tasks:
-    file: ./utils/bake_and_sign_agents.yml
+  ansible.builtin.include_role:
+    name: cmk-utils
+    tasks_from: bake_and_sign_agents.yml
