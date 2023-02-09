@@ -8,12 +8,12 @@
     https_proxy: "{{ https_proxy }}"
 
 - name: Run package installation
-  import_role:
+  include_role:
     name: cmk-utils
     tasks_from: install_mkp.yml
-  loop:
-    - name: robotmk
-    - url: "{{ robotmk_download_url }}"
+  vars:
+    name: robotmk
+    url: "{{ robotmk_download_url }}"
 
 - name: Ensure robot directory exists
   ansible.builtin.file:
