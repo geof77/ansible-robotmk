@@ -44,6 +44,7 @@ Role Variables
 --------------
 
 | Name | Description |
+| ---- | ----------- |
 | https_proxy     | proxy to download the robotmk mkp |
 | cmk_site_name   | CheckMK site name |
 | cmk_server_url  | URL of the CheckMK server |
@@ -52,6 +53,7 @@ Role Variables
 
 For CEE features (agent bakery):
 | Name | Description |
+| ---- | ----------- |
 | cmk_agent_key_id | the agent key id |
 | cmk_agent_key_pw | the agent key password | 
 
