@@ -5,13 +5,7 @@ Manage the RobotMK CheckMK plugin and test suites.
 
 This role requires https://github.com/geof77/ansible-cmk-utils
 
-This is provided as-is in the hope it will be useful, but with no warranty of any kind. This personal project is not maintained nor endorsed by CheckMK or RobotMK authors.
-
-IMPORTANT NOTES: 
-
-* This is an early version with basic functions.
-* Please read the code and run on test servers only. Feedback welcome. 
-* Only tested on RHEL 8 with python 3.9
+In active development. Feature requests, suggestions and contributions are welcome!
 
 Features
 --------
@@ -26,10 +20,15 @@ For CheckMK CEE version:
 * Bake the agent
 * Create a rule for automatic discovery of the test cases
 
-Not implemented yet (PR welcome):
+Planned features:
 
+* Per-suite configuration settings
+* Install the agent on a different host than the server
+* Make configuration variables similar to the tribe29.checkmk collection
+* Use the collection features where possible (instead of snippets)
 * Creation of the robotmk.yml file for CRE
 * Agent deployment for CRE 
+* ...
 
 Requirements
 ------------
@@ -102,3 +101,11 @@ Example Playbook
   roles:
      - robotmk
 ```
+
+This is provided as-is in the hope it will be useful, but with no warranty of any kind. This personal project is not maintained nor endorsed by CheckMK or RobotMK authors.
+
+IMPORTANT NOTES: 
+
+* This is an early version with basic functions.
+* Please read the code and run on test servers only. Feedback welcome. 
+* Only tested on RHEL 8 with python 3.9
