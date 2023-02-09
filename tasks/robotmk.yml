@@ -82,7 +82,7 @@
         host_labels: []
       value_raw: "{'includedate': 'yes'}"
     state: present
-      #
+
 # When we add test cases to a suite, we want them activated automatically
 - name: Create rule for automatic activation of dicovered test cases
   tribe29.checkmk.rule:
