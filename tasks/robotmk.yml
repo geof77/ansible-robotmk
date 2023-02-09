@@ -7,9 +7,10 @@
   environment:
     https_proxy: "{{ https_proxy }}"
 
-- import_role:
-  name: cmk-utils
-  tasks_from: install_mkp.yml
+- name: Run package installation
+  import_role:
+    name: cmk-utils
+    tasks_from: install_mkp.yml
   loop:
     - name: robotmk
     - url: "{{ robotmk_download_url }}"
