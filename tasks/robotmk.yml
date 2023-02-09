@@ -119,10 +119,3 @@
 - name: Bake agents
   ansible.builtin.include_tasks:
     file: ./utils/bake_and_sign_agents.yml
-
-- name: Remove downloaded files
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: absent
-  loop:
-    - "{{ mkp_download.path }}
