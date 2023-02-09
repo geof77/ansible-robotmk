@@ -72,6 +72,25 @@
         'transmit_html': True
       {{ "}" }}
 
+- name: Create RobotMK service monitoring rule
+  tribe29.checkmk.rule:
+    server_url: "{{ cmk_server_url }}"
+    site: "{{ cmk_site_name }}"
+    automation_user: "automation"
+    automation_secret: "{{ cmk_automation_pw }}"
+    ruleset: "checkgroup_parameters:robotmk"
+    rule:
+      properties:
+        comment: "Managed by ansible"
+        description: "Monitoring RobotMK services"
+        disabled: false
+      conditions:
+        host_tags: []
+        service_labels: []
+        host_labels: []
+      value_raw: "{'includedate': 'yes'}"
+    state: present
+      #
 # When we add test cases to a suite, we want them activated automatically
 - name: Create rule for automatic activation of dicovered test cases
   tribe29.checkmk.rule:
