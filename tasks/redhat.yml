@@ -3,12 +3,16 @@
   ansible.builtin.package:
     name:
       - python39-pyyaml
+      - python39-requests
     state: present
 
 - name: Install Python modules
   ansible.builtin.pip:
     name:
       - robotframework
+      - robotframework-requests
+      - robotframework-soaplibrary
+      - Authlib
       - mergedeep
       - python-dateutil
     state: present
