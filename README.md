@@ -43,15 +43,17 @@ To use CEE features (optional):
 Role Variables
 --------------
 
-* https_proxy: proxy to download the robotmk mkp
-* cmk_site_name: CheckMK site name
-* cmk_server_url: URL of the CheckMK server
-* robotmk_version: "1.4.1"
-* robotmk_suites: a list of suite names you want to deploy from the role's files/ directory.
+| Name | Description |
+| https_proxy     | proxy to download the robotmk mkp |
+| cmk_site_name   | CheckMK site name |
+| cmk_server_url  | URL of the CheckMK server |
+| robotmk_version | "1.4.1" |
+| robotmk_suites  | list of suite names you want to deploy from the role's files/ directory |
 
 For CEE features (agent bakery):
-* cmk_agent_key_id: the agent key id
-* cmk_agent_key_pw: the agent key password 
+| Name | Description |
+| cmk_agent_key_id | the agent key id |
+| cmk_agent_key_pw | the agent key password | 
 
 Dependencies
 ------------
