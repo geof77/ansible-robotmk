@@ -5,6 +5,8 @@ Manage the RobotMK CheckMK plugin and test suites.
 
 This role requires https://github.com/geof77/ansible-cmk-utils
 
+This is provided as-is in the hope it will be useful, but with no warranty of any kind. This personal project is not maintained nor endorsed by CheckMK or RobotMK authors.
+
 IMPORTANT NOTES: 
 
 * This is an early version with basic functions.
