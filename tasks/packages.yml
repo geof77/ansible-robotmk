@@ -1,0 +1,5 @@
+- name: Install required packages
+  ansible.builtin.include_tasks: redhat.yml 
+  when: ansible_facts['distribution'] == 'RedHat'
+        and ansible_facts['distribution_major_version'] >= '8'
+

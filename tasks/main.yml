@@ -3,4 +3,6 @@
     name: cmk-utils
     tasks_from: get_automation_pw.yml
 
+- ansible.builtin.import_tasks: packages.yml
+
 - ansible.builtin.import_tasks: robotmk.yml

@@ -1,0 +1,14 @@
+- name: Install python packages
+  ansible.builtin.package:
+    - python39-pyyaml
+
+- name: Install Python modules
+  ansible.builtin.pip:
+    name:
+      - robotframework
+      - mergedeep
+      - python-dateutil
+    state: present
+    executable: /usr/bin/pip3
+  environment:
+    https_proxy: "{{ https_proxy }}"
