@@ -1,13 +1,18 @@
 ---
 - hosts: localhost.fqdn
 
+  collections:
+    - tribe29.checkmk
+
   vars:
     https_proxy: http://proxy.example.com:8000
     cmk_site_name: test
     cmk_server_fqdn: cmk.example.com
     cmk_agent_key_id: 1
-    cmk_agent_key_pw: *************
+    cmk_agent_key_pw: secret
     robotmk_version: "1.4.1"
+    robotmk_suites:
+      - testsuite
 
   roles:
     - robotmk
