@@ -42,6 +42,32 @@
       value_raw: "{{ lookup('ansible.builtin.template', 'agent_rule.j2') | string }}"
     state: present
 
+- name: Create RobotMK inventory rule
+  tribe29.checkmk.rule:
+    server_url: "{{ cmk_server_url }}"
+    site: "{{ cmk_site_name }}"
+    automation_user: "automation"
+    automation_secret: "{{ cmk_automation_pw }}"
+    ruleset: "inventory_robotmk_rules"
+    rule:
+      properties:
+        comment: "Managed by ansible"
+        description: "RobotMK services inventory"
+        disabled: false
+      conditions:
+        host_tags: []
+        service_labels: []
+        host_labels: []
+      value_raw: "{
+        'htmllog': {
+          'last_error_log': '.*',
+          'last_log': '.*'
+        },
+        'robot_discovery_settings': [('.*', '2', '')],
+        'robot_service_prefix': [('.*', 'E2E$SPACE-$SUITEID$SPACE-$SPACE')]
+      }"
+    state: present
+
 - name: Create RobotMK service monitoring rule
   tribe29.checkmk.rule:
     server_url: "{{ cmk_server_url }}"
