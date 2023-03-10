@@ -13,7 +13,7 @@ NOTES
 * For now, the RobotMK agent is installed on the CheckMK server itself. This is not recommended in a production environment.
   There is work in progress to separate server and agent tasks.
 
-* This requires a few modification to work with CheckMK CRE. The role will fully support CRE in the future. 
+* This role requires a few modifications to work with CheckMK CRE. It will fully support CRE in the future. 
 
 Features
 --------
