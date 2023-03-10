@@ -7,6 +7,14 @@ This role requires https://github.com/geof77/ansible-cmk-utils
 
 In active development. Feature requests, suggestions and contributions are welcome!
 
+NOTES
+-----
+
+* For now, the RobotMK agent is installed on the CheckMK server itself. This is not recommended in a production environment.
+  There is work in progress to separate server and agent tasks.
+
+* This requires a few modification to work with CheckMK CRE. The plugin will fully support CRE in the future. 
+
 Features
 --------
 
