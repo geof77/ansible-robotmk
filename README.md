@@ -1,3 +1,6 @@
+
+NOTE: This is obsolete since RobotMK was integrated into CMK. The repos is archived and no further development will be done.
+
 RobotMK ansible role
 ====================
 
